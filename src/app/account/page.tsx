@@ -2,7 +2,7 @@
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { getTest, watchTesting } from '../../lib/firebase/firestore'
+import { watchTesting } from '../../lib/firebase/firestore'
 
 const Canvas = dynamic(() => import('./Canvas.js'), {
   ssr: false,

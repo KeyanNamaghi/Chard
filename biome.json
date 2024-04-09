@@ -37,7 +37,10 @@
     "enabled": true,
     "ignore": [".next", "node_modules", "bun.lockb"],
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "correctness": {
+        "noUnusedImports": "error"
+      }
     }
   }
 }
