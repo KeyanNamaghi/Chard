@@ -1,6 +1,26 @@
+'use client'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import { getTest, watchTesting } from '../../lib/firebase/firestore'
+
+const Canvas = dynamic(() => import('./Canvas.js'), {
+  ssr: false,
+})
 
 export default function Home() {
+  //   const value = await getTest()
+  const [data, setData] = useState<string | null>(null)
+
+  useEffect(() => {
+    const unsub = watchTesting((data: string) => {
+      setData(data)
+    })
+
+    return () => {
+      unsub()
+    }
+  }, [])
   return (
     <main className='flex min-h-screen flex-col items-center justify-between p-24'>
       <div className='z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex'>
@@ -13,12 +33,13 @@ export default function Home() {
             className='pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0'
             href='https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app'
             target='_blank'
-            rel='noopener noreferrer'
-          >
+            rel='noopener noreferrer'>
             By <Image src='/vercel.svg' alt='Vercel Logo' className='dark:invert' width={100} height={24} priority />
           </a>
         </div>
+        {data && <p>{JSON.stringify(data)}</p>}
       </div>
+      <Canvas />
     </main>
   )
 }
